@@ -19,6 +19,7 @@ async function bootstrap() {
 
   //Global Exception Handler
   app.useGlobalFilters(new HttpExceptionListener());
+  console.log("==================>",__dirname);
 
   await app.listen(3000);
 }
