@@ -1,26 +1,35 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import * as bcrypt from 'bcrypt'
+import { BaseEntity } from "src/config/base.entity";
 
-@Entity()
-export class User {
+@Entity({schema:'account'})
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', length: 30 })
+    @Column({ type: 'varchar', length: 50 })
     firstName: string;
 
-    @Column({ type: 'varchar', length: 30 })
+    @Column({ type: 'varchar', length: 50 })
     lastName: string;
 
-    @Column({ type: 'varchar', length: 15 })
+    @Column({ type: 'varchar', length: 50, unique: true })
     username: string;
-  
-    @Column({ type: 'varchar', length: 40 })
+
+    @Index({ unique: true })
+    @Column({ type: 'varchar', length: 50, unique: true })
     email: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', length: 250 })
     password: string;
 
-    @Column({type: 'date'})
-    createdDate: Date
-   
+    @Column({ type: 'varchar', nullable: true })
+    lastPassword: string
+
+    @BeforeInsert()
+    async hashPassword() {
+        const salt = await bcrypt.genSalt()
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+
 }
