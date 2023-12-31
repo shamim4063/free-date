@@ -2,18 +2,25 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AccountsController } from './accounts/accounts.controller';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import dbConfig from './config/db.config';
+import dbConfig from 'db/db.config';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
+      load: [dbConfig]
     }),
     TypeOrmModule.forRootAsync({
-      ...dbConfig
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => (configService.get('typeorm')),
+      dataSourceFactory: async (options) => {
+        const dataSource = await new DataSource(options).initialize();
+        return dataSource;
+    },
     }),
     UserModule
   ],

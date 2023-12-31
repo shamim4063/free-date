@@ -8,7 +8,11 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "typeorm": "typeorm-ts-node-commonjs",
+    "typeorm": "npm run build && typeorm-ts-node-commonjs -d dist/db/db.config.js",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:create": "typeorm-ts-node-commonjs -- migration:create db/migrations/$npm_config_name",
+    "migration:revert": "npm run typeorm -- migration:revert",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

@@ -1,9 +1,9 @@
 import { BeforeInsert, Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt'
-import { BaseEntity } from "src/config/base.entity";
+import { BaseEntity } from "../../config/base.entity";
 
-@Entity({schema:'account'})
-export class User extends BaseEntity {
+@Entity()
+export class User extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,6 +19,9 @@ export class User extends BaseEntity {
     @Index({ unique: true })
     @Column({ type: 'varchar', length: 50, unique: true })
     email: string;
+
+    @Column({type: 'date', nullable: true})
+    dateOfBirth: Date;
 
     @Column({ type: 'varchar', length: 250 })
     password: string;
