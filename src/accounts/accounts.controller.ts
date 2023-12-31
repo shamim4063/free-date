@@ -6,7 +6,7 @@ import { UserDto } from './dto/user.dto';
 
 
 @Controller('accounts')
-@ApiTags('accounts')
+@ApiTags('Accounts')
 export class AccountsController {
 
     constructor(private configService : ConfigService ) {
