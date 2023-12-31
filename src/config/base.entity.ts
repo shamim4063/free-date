@@ -1,6 +1,10 @@
-import { BeforeInsert, BeforeUpdate, Column } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, PrimaryGeneratedColumn } from "typeorm";
 
 export abstract class BaseEntity {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
     @Column({ type: 'timestamp', nullable: true })
     createdDate: Date;
 

@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "setup-database": "npm run build && node dist/src/setupDatabase.js",
     "typeorm": "npm run build && typeorm-ts-node-commonjs -d dist/db/db.config.js",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:generate": "npm run typeorm -- migration:generate",

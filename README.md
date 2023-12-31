@@ -4,6 +4,18 @@
 $ npm install
 ```
 
+## Setup Databse
+
+```bash
+$ npm run setup-databse
+```
+
+## Generate Resource
+
+```bash
+$ nest g resource [users]
+```
+
 ## Running the app
 
 ```bash

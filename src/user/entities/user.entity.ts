@@ -2,10 +2,8 @@ import { BeforeInsert, Column, Entity, Index, PrimaryGeneratedColumn } from "typ
 import * as bcrypt from 'bcrypt'
 import { BaseEntity } from "../../config/base.entity";
 
-@Entity()
-export class User extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity({ schema: 'admin' })
+export class User extends BaseEntity {
 
     @Column({ type: 'varchar', length: 50 })
     firstName: string;
@@ -20,11 +18,8 @@ export class User extends BaseEntity{
     @Column({ type: 'varchar', length: 50, unique: true })
     email: string;
 
-    @Column({type: 'bool', nullable: false, default: false})
+    @Column({ type: 'bool', nullable: false, default: false })
     isVerified: boolean;
-
-    @Column({type: 'date', nullable: true})
-    dateOfBirth: Date;
 
     @Column({ type: 'varchar', length: 250 })
     password: string;
