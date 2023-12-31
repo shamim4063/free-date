@@ -20,6 +20,9 @@ export class User extends BaseEntity{
     @Column({ type: 'varchar', length: 50, unique: true })
     email: string;
 
+    @Column({type: 'bool', nullable: false, default: false})
+    isVerified: boolean;
+
     @Column({type: 'date', nullable: true})
     dateOfBirth: Date;
 
