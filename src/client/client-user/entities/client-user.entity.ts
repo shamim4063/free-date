@@ -1,23 +1,15 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity } from "src/config/base.entity";
+import { BeforeInsert, Column, Entity, Index, ManyToOne, Table } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { BaseEntity } from "../../config/base.entity";
+import { Client } from "src/client/entities/client.entity";
 
-@Entity("User", { schema: "admin" })
-export class User extends BaseEntity {
+@Entity("ClientUser", { schema: "client" })
+export class ClientUser extends BaseEntity {
   @Column({ type: "varchar", length: 50 })
   firstName: string;
 
   @Column({ type: "varchar", length: 50 })
   lastName: string;
-
-  @Column({ type: "varchar", length: 50, unique: true })
-  username: string;
 
   @Index({ unique: true })
   @Column({ type: "varchar", length: 50, unique: true })
@@ -31,6 +23,9 @@ export class User extends BaseEntity {
 
   @Column({ type: "varchar", nullable: true })
   lastPassword: string;
+
+  @ManyToOne(() => Client, (client) => client.users)
+  client: Client;
 
   @BeforeInsert()
   async hashPassword() {
