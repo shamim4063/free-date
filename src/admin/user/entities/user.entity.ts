@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { BaseEntity } from "../../config/base.entity";
+import { BaseEntity } from "../../../config/base.entity";
 
 @Entity("User", { schema: "admin" })
 export class User extends BaseEntity {

@@ -6,20 +6,23 @@ import { HttpExceptionListener } from './utils/exception/exception.listener';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // setting api Prefix
+  app.setGlobalPrefix('api');
+
   //#region Swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('Free Date')
-    .setDescription('The Free Date API description')
+    .setTitle('Make Friday Order')
+    .setDescription('The Make Friday Order API description')
     .setVersion('1.0')
-    .addTag('accounts')
+    .setBasePath('api')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
   //#endregion
 
   //Global Exception Handler
   app.useGlobalFilters(new HttpExceptionListener());
-  console.log("==================>",__dirname);
 
   await app.listen(3000);
 }

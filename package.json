@@ -1,6 +1,7 @@
 {
   "name": "free-date",
   "version": "0.0.1",
+  "api-version": "v1",
   "description": "",
   "author": "",
   "private": true,

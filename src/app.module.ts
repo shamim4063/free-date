@@ -1,19 +1,19 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AccountsController } from './accounts/accounts.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
+import { UserModule } from './admin/user/user.module';
 import dbConfig from 'db/db.config';
 import { DataSource } from 'typeorm';
 import { ClientModule } from './client/client.module';
+import { RedirectMiddleware } from './middlewares/redirect/redirect.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [dbConfig]
+      load: [dbConfig],
+
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -26,7 +26,16 @@ import { ClientModule } from './client/client.module';
     UserModule,
     ClientModule
   ],
-  controllers: [AppController, AccountsController],
-  providers: [AppService],
+  providers: [AppService]
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+
+  // If the application hitting by [host:port] only or [host:port/else] in the browser. 
+  // It will redirect to /api for API documentation.
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RedirectMiddleware)
+      .forRoutes('*');
+  }
+
+}
